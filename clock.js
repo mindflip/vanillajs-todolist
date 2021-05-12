@@ -6,11 +6,14 @@ function getTime() {
     const minutes = date.getMinutes();
     const hours = date.getHours();
     const seconds = date.getSeconds();
-    clockTitle.innerText = `${hours}:${minutes}:${seconds}`;
+    clockTitle.innerText = `${setDigit(hours)}:${setDigit(minutes)}:${(seconds < 10) ? '0'+seconds : seconds}`;
 }
+
+const setDigit = (num) => num < 10 ? `0${num}`: num;
 
 function init() {
     getTime();
+    setInterval(getTime, 1000);
 }
 
 init();
