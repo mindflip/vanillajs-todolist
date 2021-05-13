@@ -17,6 +17,7 @@ function saveName(name) {
 
 function handleSubmit(event) {
     event.preventDefault();
+    if(input.value == "") return;
     const currentUser = input.value;
     paintGreeting(currentUser);
     saveName(currentUser);

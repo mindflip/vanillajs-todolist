@@ -41,6 +41,7 @@ function paintToDo(val) {
 
 function handleSubmit(event) {
     event.preventDefault();
+    if(toDoInput.value == "") return;
     const currentValue = toDoInput.value;
     paintToDo(currentValue);
     toDoInput.value = "";
