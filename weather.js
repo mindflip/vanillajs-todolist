@@ -1,5 +1,20 @@
-
+const weather = document.querySelector(".js-weather");
+const API_KEY = "APPKEY";
 const COORDS = 'coords';
+
+async function getWeather(lat, lon) {
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
+
+    if(!response.ok) {
+        const message = `An error has occured: ${response.status}`;
+        throw new Error(message);
+    }
+
+    const result = await response.json();
+    const temperature = result.main.temp;
+    const place = result.name;
+    weather.innerText = `${temperature} @ ${place}`;
+}
 
 function handleGeoSuccess(position) {
     const coords = position.coords;
@@ -8,6 +23,7 @@ function handleGeoSuccess(position) {
         longitude : coords.longitude, 
     }
     localStorage.setItem(COORDS, JSON.stringify(crdObj));
+    getWeather(crdObj.latitude, crdObj.longitude);
 }
 
 function handleGeoError() {
@@ -23,7 +39,8 @@ function loadCoords() {
     if(loadedCoords === null) {
         askForCoords();
     } else {
-        // get weather
+        const parsedCoords = JSON.parse(loadedCoords);
+        getWeather(parsedCoords.latitude, parsedCoords.longitude);
     }
 }
 
